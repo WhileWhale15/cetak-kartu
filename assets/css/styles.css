@@ -1,0 +1,43 @@
+:root {
+  --card-size: 300px;
+  scroll-behavior: smooth;
+}
+
+.card {
+  width: calc(var(--card-size) * 1.586);
+  height: var(--card-size);
+
+  border-radius: 0.75rem;
+  box-shadow: 0 22px 70px 4px rgba(0, 0, 0, 0.56), 0 0 0 1px rgba(0, 0, 0, 0.3);
+
+  background: transparent;
+  background-image: url("../img/testbg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  color: white;
+
+  will-change: transform;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 32px 80px 14px rgba(0, 0, 0, 0.36),
+      0 0 0 1px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.card-details {
+  padding: 1rem;
+}
+
+.card-avatar {
+  display: grid;
+  place-items: center;
+}
+
+#preview-card {
+  font-family: "Helvetica Neue", sans-serif;
+}
