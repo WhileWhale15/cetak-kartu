@@ -3,34 +3,32 @@
   scroll-behavior: smooth;
 }
 
-.card {
+.front-card {
   width: calc(var(--card-size) * 1.586);
   height: var(--card-size);
 
   border-radius: 0.75rem;
-  box-shadow: 0 22px 70px 4px rgba(0, 0, 0, 0.56), 0 0 0 1px rgba(0, 0, 0, 0.3);
 
-  background: transparent;
-  background-image: url("../img/testbg.png");
-  background-size: cover;
+  background: transparent !important;
+  background-size: cover !important;
   background-position: center;
   background-repeat: no-repeat;
+}
 
-  color: white;
+.back-card {
+  width: calc(var(--card-size) * 1.586);
+  height: var(--card-size);
 
-  will-change: transform;
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 0.75rem;
 
-  &:hover {
-    transform: scale(1.1);
-    box-shadow: 0 32px 80px 14px rgba(0, 0, 0, 0.36),
-      0 0 0 1px rgba(0, 0, 0, 0.3);
-  }
+  background: #054c27 !important;
+  background-size: cover !important;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .card-details {
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 .card-avatar {

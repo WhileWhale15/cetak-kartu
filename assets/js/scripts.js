@@ -1,3 +1,4 @@
+// Handle image upload and preview
 document
   .getElementById("file-upload-input")
   .addEventListener("change", function (event) {
@@ -8,7 +9,7 @@ document
     }
   });
 
-// Listen to the form submit event
+// Listen to the form submit event to update the preview card with form data
 document
   .getElementById("idCardForm")
   .addEventListener("submit", function (event) {
@@ -20,7 +21,6 @@ document
     const dob = document.getElementById("dob").value;
     const faculty = document.getElementById("faculty").value;
     const course = document.getElementById("course").value;
-
     const gender = document.querySelector('input[name="gender"]:checked').value;
 
     // Update the card content
@@ -53,64 +53,28 @@ document
     generateCardImage();
   });
 
-function generateCardImage() {
-  const previewCard = document.getElementById("preview-card");
+// Function to generate the card image (PNG)
+document
+  .getElementById("download-front")
+  .addEventListener("click", function () {
+    const frontCard = document.getElementById("preview-card");
+    downloadCard(frontCard, "student_id_card_front.png", 300); // 300 PPI
+  });
 
-  // Define the scale factor for higher resolution
-  const scale = 2; // Change this value to increase or decrease the resolution
-
-  html2canvas(previewCard, {
-    scale: scale, // Set the scale option
-  })
-    .then(function (canvas) {
-      const downloadLink = document.getElementById("download-link");
-      downloadLink.href = canvas.toDataURL("image/png");
-      downloadLink.download = "student_id_card.png";
-      downloadLink.style.display = "block";
-      downloadLink.innerText = "Download Card";
-    })
-    .catch(function (error) {
-      console.error("Error generating card image:", error);
-    });
-}
-
-document.getElementById("download-pdf").addEventListener("click", function () {
-  const previewCard = document.getElementById("preview-card");
-
-  html2canvas(previewCard, { scale: 2 })
-    .then(function (canvas) {
-      const imgData = canvas.toDataURL("image/png");
-
-      // Create a new PDF document
-      const pdf = new jsPDF({
-        orientation: "portrait",
-        unit: "px",
-        format: "a4",
-        hotfixes: [], // Fixes rendering issues
-      });
-
-      const imgWidth = 190; // Set image width (adjust as needed)
-      const pageHeight = pdf.internal.pageSize.height;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      let heightLeft = imgHeight;
-
-      let position = 0;
-
-      // Add the image to the PDF
-      pdf.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-
-      while (heightLeft >= 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-      }
-
-      // Save the PDF
-      pdf.save("student_id_card.pdf");
-    })
-    .catch(function (error) {
-      console.error("Error generating PDF:", error);
-    });
+document.getElementById("download-back").addEventListener("click", function () {
+  const backCard = document.getElementById("back-card");
+  downloadCard(backCard, "student_id_card_back.png", 300); // 300 PPI
 });
+
+function downloadCard(cardElement, fileName, desiredPPI) {
+  const scaleFactor = desiredPPI / 96; // Assuming 96 PPI is the default resolution
+  html2canvas(cardElement, {
+    scale: scaleFactor, // Adjust scale to match the desired PPI
+    useCORS: true, // Ensure external images are handled
+  }).then(function (canvas) {
+    const link = document.createElement("a");
+    link.download = fileName;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  });
+}
